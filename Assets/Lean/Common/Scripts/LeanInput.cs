@@ -1,6 +1,6 @@
 ﻿using KeyCode = UnityEngine.KeyCode;
 #if ENABLE_INPUT_SYSTEM
-using NewCode = Unity​Engine.InputSystem.Key;
+using NewCode = UnityEngine.InputSystem.Key;
 #endif
 
 namespace Lean.Common
@@ -149,7 +149,7 @@ namespace Lean.Common
 			{ KeyCode.Print, NewCode.PrintScreen },
 			{ KeyCode.SysReq, NewCode.None },
 			{ KeyCode.Break, NewCode.None },
-			{ KeyCode.Menu, NewCode.ContextMenu },
+			{ KeyCode.Menu, NewCode.ContextMenu }
 		};
 
 		private static UnityEngine.InputSystem.Controls.ButtonControl GetMouseButtonControl(int index)

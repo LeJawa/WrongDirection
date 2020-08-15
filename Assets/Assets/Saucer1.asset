@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78dcacf0f77c48308154138a7fa5bef0, type: 3}
   m_Name: Saucer1
   m_EditorClassIdentifier: 
-  initialVelocity: 5
+  initialVelocity: 20
   sprite: {fileID: -5457864588088112893, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}

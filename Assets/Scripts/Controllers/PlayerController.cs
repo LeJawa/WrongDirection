@@ -48,8 +48,9 @@ namespace GravityGames.MizJam1.Controllers
             _rigidbody.angularVelocity = Vector3.zero;
         }
 
-
-
-
+        private void OnCollisionEnter(Collision other)
+        {
+            Debug.Log("Player crashed");
+        }
     }
 }
