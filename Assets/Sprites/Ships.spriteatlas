@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Ships
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 0
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 0
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    variantMultiplier: 1
+    packables:
+    - {fileID: 5134699593880047186, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: -8399968583468167514, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: -5221901392540649594, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: -3944311864471964616, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: 5469184202931151439, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: 9180675245674545995, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: -9121821281209297874, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: 3419593040636657372, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: 3482512805507413357, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: 1102283009585662762, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: 9048681673238290409, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: 4623952501795363564, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: 8256391182560896400, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: -6784945999918723422, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: -8089257916787680139, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: 8179501662990215089, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: -5669294126356237781, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: -1755035346549739377, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: -3724748617938373900, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: -6710916951090259558, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: -2842077659344253984, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: 6436608322753717027, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: -53449531512553034, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: -6779907023118620620, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: 5647580403619596446, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: -2478191875226892966, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    - {fileID: -6569304708771454169, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+    totalSpriteSurfaceArea: 6912
+    bindAsDefault: 1
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: -9121821281209297874, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: -5221901392540649594, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: 5647580403619596446, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: -6779907023118620620, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: 5134699593880047186, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: -2478191875226892966, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: 6436608322753717027, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: -3944311864471964616, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: 3482512805507413357, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: -2842077659344253984, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: 1102283009585662762, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: 4623952501795363564, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: 9048681673238290409, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: -6784945999918723422, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: -6710916951090259558, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: 8256391182560896400, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: -3724748617938373900, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: -1755035346549739377, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: -8089257916787680139, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: -5669294126356237781, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: 8179501662990215089, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: -8399968583468167514, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: 9180675245674545995, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: -6569304708771454169, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: 5469184202931151439, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: 3419593040636657372, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  - {fileID: -53449531512553034, guid: 2988a65e0299066418d44e8dcee9fa58, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - arrow_up
+  - arrow_left
+  - star3
+  - star2
+  - arrow_down
+  - star5
+  - ship
+  - arrow_left2
+  - atar4
+  - satellite
+  - car1
+  - car3
+  - car2
+  - car5
+  - light5
+  - car4
+  - light4
+  - light3
+  - car6
+  - light2
+  - light1
+  - arrow_down2
+  - arrow_right2
+  - start1
+  - arrow_right
+  - arrow_up2
+  - warning
+  m_Tag: Ships
+  m_IsVariant: 0
