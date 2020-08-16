@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using GravityGames.MizJam1.ScriptableObjects;
 using Lean.Common;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace GravityGames.MizJam1.Gameplay
 {
