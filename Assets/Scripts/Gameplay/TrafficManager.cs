@@ -14,9 +14,10 @@ namespace GravityGames.MizJam1.Gameplay
 
         private const int NumberOfLanes = 5;
         private bool[] _isLaneOcupied;
+        private Coroutine[] _vehicleSpawnCoroutines;
 
-        private float _globalTimer = 0;
-        private float _timeBetweenSpawns = 0.5f;
+        private readonly float _timeBetweenSpawns;
+        private readonly float _deltaTimeBetweenSpawns;
 
         private Coroutine _spawingCoroutine;
         private bool _keepSpawing = true;
@@ -26,14 +27,16 @@ namespace GravityGames.MizJam1.Gameplay
         {
             _trafficData = trafficData;
             _timeBetweenSpawns = _trafficData.timeBetweenSpawns;
+            _deltaTimeBetweenSpawns = _trafficData.deltaTimeBetweenSpawns;
             
             _trafficSpawner = new TrafficSpawner();
             
             _isLaneOcupied = new bool[NumberOfLanes];
+            _vehicleSpawnCoroutines = new Coroutine[NumberOfLanes];
 
-            for (int i = 0; i < _isLaneOcupied.Length; i++)
+            for (int lane = 0; lane < NumberOfLanes; lane++)
             {
-                _isLaneOcupied[i] = false;
+                _isLaneOcupied[lane] = false;
             }
 
             GameEvents.Instance.OnDespawnVehicle += HandleDespawnVehicleEvent;
@@ -52,7 +55,10 @@ namespace GravityGames.MizJam1.Gameplay
 
         private IEnumerator StartSpawningVehiclesCoroutine()
         {
-            var wait = new WaitForSeconds(_timeBetweenSpawns);
+            var minTimeBetweenSpawns = _timeBetweenSpawns - _deltaTimeBetweenSpawns;
+            var maxTimeBetweenSpawns = _timeBetweenSpawns + _deltaTimeBetweenSpawns;
+            
+            
             while (_keepSpawing)
             {
                 int lane = Random.Range(0, NumberOfLanes);
@@ -63,13 +69,13 @@ namespace GravityGames.MizJam1.Gameplay
                 
                 SpawnVehicle(lane, Direction.Left);
                 
-                yield return wait;
+                yield return new WaitForSeconds(Random.Range(minTimeBetweenSpawns, maxTimeBetweenSpawns));
             }
         }
 
         private void SpawnVehicle(int lane, Direction direction)
         {
-            CoroutineHelper.Instance.StartCoroutine(SpawnVehicleCoroutine(lane, direction));
+            _vehicleSpawnCoroutines[lane] = CoroutineHelper.Instance.StartCoroutine(SpawnVehicleCoroutine(lane, direction));
         }
 
 
@@ -94,6 +100,20 @@ namespace GravityGames.MizJam1.Gameplay
         {
             _keepSpawing = false;
             CoroutineHelper.Instance.StopCoroutine(_spawingCoroutine);
+
+            foreach (var coroutine in _vehicleSpawnCoroutines)
+            {
+                if (coroutine != null)
+                {
+                    CoroutineHelper.Instance.StopCoroutine(coroutine);
+                }
+            }
+
+            for (int lane = 0; lane < NumberOfLanes; lane++)
+            {
+                _isLaneOcupied[lane] = false;
+            }
+            
         }
 
 

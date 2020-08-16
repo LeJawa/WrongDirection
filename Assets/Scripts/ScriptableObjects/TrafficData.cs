@@ -6,5 +6,6 @@ namespace GravityGames.MizJam1.ScriptableObjects
     public class TrafficData : ScriptableObject
     {
         public float timeBetweenSpawns = 0.5f;
+        public float deltaTimeBetweenSpawns = .2f;
     }
 }

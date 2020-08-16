@@ -16,6 +16,8 @@ namespace GravityGames.MizJam1.Controllers
 
         public VehicleData vehicleData;
 
+        public ParticleSystem crashParticles;
+
 
         // Start is called before the first frame update
         void Awake()
@@ -31,7 +33,7 @@ namespace GravityGames.MizJam1.Controllers
         // Update is called once per frame
         void Update()
         {
-            if (transform.position.x < -20 || transform.position.x > 20 || transform.position.y < -10 || transform.position.y > 10)
+            if (transform.position.x < -40 || transform.position.x > 40 || transform.position.y < -10 || transform.position.y > 10)
             {
                 GameEvents.Instance.TriggerDespawnVehicleEvent(this);
             }
@@ -53,8 +55,11 @@ namespace GravityGames.MizJam1.Controllers
                     _rigidbody.AddForce(Vector3.left * _initialVelocity, ForceMode.VelocityChange);
                     break;
             }
-            
-            
+        }
+
+        private void OnCollisionEnter(Collision other)
+        {
+            crashParticles.Play();
         }
     }
 }

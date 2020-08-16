@@ -14,12 +14,17 @@ namespace GravityGames.MizJam1.Controllers
 
         private Controls _controls;
         
-        private Vector3 _position = new Vector3(-3, 0, 3);
+        private Vector3 InitialPosition = new Vector3(-3, 0, 3);
+        private Vector3 _position;
 
         public SpriteRenderer vehicleLights;
-        
+
+        public ParticleSystem crashParticles;
+
+        public bool CanMove { get; set; } = false;
+
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
             
@@ -27,10 +32,14 @@ namespace GravityGames.MizJam1.Controllers
             _controls.Enable();
             _controls.Player.UpDownMovement.performed += ctx => Move(ctx.ReadValue<float>());
             _controls.Player.UpDownMovement.canceled += ctx => Stop();
+            
+            _position = InitialPosition;
         }
 
         private void Move(float moveInput)
         {
+            if (!CanMove) return;
+            
             if (moveInput < 0)
             {
                 _position.z = Mathf.Clamp(_position.z - 1, 1, 5);
@@ -55,9 +64,21 @@ namespace GravityGames.MizJam1.Controllers
         {
             vehicleLights.enabled = false;
             
-            GameEvents.Instance.TriggerPlayerCrashedEvent();
+            crashParticles.Play();
             
-            Debug.Log("Player crashed");
+            GameEvents.Instance.TriggerPlayerCrashedEvent();
+        }
+
+        public void ResetPlayer()
+        {
+            vehicleLights.enabled = true;
+            _position = InitialPosition;
+            var currentTransform = transform;
+            
+            currentTransform.position = _position;
+            currentTransform.rotation = Quaternion.identity;
+            _rigidbody.velocity = Vector3.zero;
+            _rigidbody.angularVelocity = Vector3.zero;
         }
     }
 }

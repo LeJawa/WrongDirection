@@ -19,7 +19,7 @@ TextureImporter:
     second: sprites_4
   - first:
       213: 6813553822765877458
-    second: sprites_5
+    second: dot
   - first:
       213: -5082647686934749709
     second: truck2
@@ -65,6 +65,9 @@ TextureImporter:
   - first:
       213: -1722539767903399326
     second: light4
+  - first:
+      213: -2018968827443427868
+    second: blank
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -589,6 +592,48 @@ TextureImporter:
       bones: []
       spriteID: 378c5330d971c0550800000000000000
       internalID: 6128299156075563123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dot
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 80
+        width: 16
+        height: 16
+      alignment: 9
+      pivot: {x: 0.53125, y: 0.46875}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2d807ff1a1b9e8e50800000000000000
+      internalID: 6813553822765877458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: blank
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e5c5a36c8e2bf3e0800000000000000
+      internalID: -2018968827443427868
       vertices: []
       indices: 
       edges: []

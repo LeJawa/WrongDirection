@@ -28,5 +28,6 @@ namespace GravityGames.MizJam1.Utils
             _current = this;
             DontDestroyOnLoad(gameObject);
         }
+            
     }
 }
