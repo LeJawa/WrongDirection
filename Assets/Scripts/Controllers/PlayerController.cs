@@ -13,7 +13,9 @@ namespace GravityGames.MizJam1.Controllers
 
         private Controls _controls;
         
-        private Vector3 _position = new Vector3(-3, 0, 3); 
+        private Vector3 _position = new Vector3(-3, 0, 3);
+
+        public SpriteRenderer vehicleLights;
         
         // Start is called before the first frame update
         void Start()
@@ -50,6 +52,8 @@ namespace GravityGames.MizJam1.Controllers
 
         private void OnCollisionEnter(Collision other)
         {
+            vehicleLights.enabled = false;
+            
             Debug.Log("Player crashed");
         }
     }

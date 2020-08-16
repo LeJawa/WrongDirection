@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace GravityGames.MizJam1.Gameplay
+namespace GravityGames.MizJam1.Background
 {
     public class BackgroundManager : MonoBehaviour
     {
@@ -66,7 +65,7 @@ namespace GravityGames.MizJam1.Gameplay
 
         private void Update()
         {
-            Vector3 tmp = new Vector3();
+            Vector3 tmp;
             
             foreach (var roadLight in _roadLights)
             {

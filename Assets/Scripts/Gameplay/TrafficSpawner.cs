@@ -44,8 +44,13 @@ namespace GravityGames.MizJam1.Gameplay
                 // _tempGO.transform.localScale = new Vector3(-1, 1, 1);
             }
 
-            _tempGO.GetComponent<VehicleController>().StartMoving(direction);
+            _tempGO.GetComponent<Vehicle>().StartMoving(direction);
             
+        }
+
+        public void DespawnVehicle(Vehicle vehicle)
+        {
+            LeanPool.Despawn(vehicle.gameObject);
         }
     }
 }

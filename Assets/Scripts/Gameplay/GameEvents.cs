@@ -1,4 +1,5 @@
 ﻿using System;
+using GravityGames.MizJam1.Controllers;
 
 namespace GravityGames.MizJam1.Gameplay
 {
@@ -19,12 +20,21 @@ namespace GravityGames.MizJam1.Gameplay
         }
         #endregion
         
-        #region Action<int> OnSignalLane
+        #region Action<int, float> OnSignalLane
         public event Action<int, float> OnSignalLane;
 
         public void TriggerSignalLaneEvent(int lane, float duration)
         {
             OnSignalLane?.Invoke(lane, duration);
+        }
+        #endregion
+        
+        #region Action<Vehicle> OnDespawnVehicle
+        public event Action<Vehicle> OnDespawnVehicle;
+
+        public void TriggerDespawnVehicleEvent(Vehicle vehicle)
+        {
+            OnDespawnVehicle?.Invoke(vehicle);
         }
         #endregion
         

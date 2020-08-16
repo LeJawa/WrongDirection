@@ -9,6 +9,6 @@ namespace GravityGames.MizJam1.ScriptableObjects
         public float initialVelocity;
         public Sprite sprite;
 
-
+        public int points;
     }
 }

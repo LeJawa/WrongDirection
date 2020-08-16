@@ -9,7 +9,7 @@ namespace GravityGames.MizJam1.Controllers
     
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(BoxCollider))]
-    public class VehicleController : MonoBehaviour
+    public class Vehicle : MonoBehaviour
     {
         private Rigidbody _rigidbody;
         private float _initialVelocity;
@@ -31,7 +31,7 @@ namespace GravityGames.MizJam1.Controllers
         {
             if (transform.position.x < -20 || transform.position.x > 20 || transform.position.y < -10 || transform.position.y > 10)
             {
-                Lean.Pool.LeanPool.Despawn(gameObject);
+                GameEvents.Instance.TriggerDespawnVehicleEvent(this);
             }
         } 
 

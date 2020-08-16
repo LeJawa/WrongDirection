@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2351251869257368717}
   - component: {fileID: 2351251869257368716}
   m_Layer: 0
-  m_Name: frontLights
+  m_Name: vehicleLights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2127821987
-  m_SortingLayer: 3
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -7039003182478323700, guid: de1b262b0072f22408af3de667a9bfcc,
     type: 3}

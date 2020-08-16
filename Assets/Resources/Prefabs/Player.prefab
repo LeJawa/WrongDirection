@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 989618097
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -7263262467203474343, guid: de1b262b0072f22408af3de667a9bfcc,
     type: 3}
@@ -296,7 +296,7 @@ PrefabInstance:
     - target: {fileID: 2351251869257368718, guid: 015d1fedf1cc1cf4a817ca6d517230ba,
         type: 3}
       propertyPath: m_Name
-      value: frontLights
+      value: vehicleLights
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 015d1fedf1cc1cf4a817ca6d517230ba, type: 3}

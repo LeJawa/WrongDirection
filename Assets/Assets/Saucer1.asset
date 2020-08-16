@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialVelocity: 20
   sprite: {fileID: -2423230811885516303, guid: de1b262b0072f22408af3de667a9bfcc, type: 3}
+  points: 5

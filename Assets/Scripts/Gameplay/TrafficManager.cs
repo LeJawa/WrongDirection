@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using GravityGames.MizJam1.Controllers;
 using GravityGames.MizJam1.ScriptableObjects;
 using GravityGames.MizJam1.Utils;
 using UnityEngine;
@@ -34,6 +35,13 @@ namespace GravityGames.MizJam1.Gameplay
             {
                 _isLaneOcupied[i] = false;
             }
+
+            GameEvents.Instance.OnDespawnVehicle += HandleDespawnVehicleEvent;
+        }
+
+        private void HandleDespawnVehicleEvent(Vehicle vehicle)
+        {
+            _trafficSpawner.DespawnVehicle(vehicle);
         }
 
         public void StartSpawningVehicles()

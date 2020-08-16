@@ -1,4 +1,5 @@
-﻿using GravityGames.MizJam1.Gameplay;
+﻿using GravityGames.MizJam1.Background;
+using GravityGames.MizJam1.Gameplay;
 using UnityEditor;
 using UnityEngine;
 
