@@ -38,6 +38,24 @@ namespace GravityGames.MizJam1.Gameplay
         }
         #endregion
         
+        #region Action OnPlayerCrashed
+        public event Action OnPlayerCrashed;
+
+        public void TriggerPlayerCrashedEvent()
+        {
+            OnPlayerCrashed?.Invoke();
+        }
+        #endregion
+        
+        
+        #region Action<Vehicle> OnPointBarrierCrossed
+        public event Action<Vehicle> OnPointBarrierCrossed;
+
+        public void TriggerointBarrierCrossedEvent(Vehicle vehicle)
+        {
+            OnPointBarrierCrossed?.Invoke(vehicle);
+        }
+        #endregion
         
 
     }

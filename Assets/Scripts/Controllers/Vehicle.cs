@@ -24,6 +24,8 @@ namespace GravityGames.MizJam1.Controllers
 
             GetComponentInChildren<SpriteRenderer>().sprite = vehicleData.sprite;
             _initialVelocity = vehicleData.initialVelocity;
+
+            gameObject.tag = "Vehicle";
         }
 
         // Update is called once per frame

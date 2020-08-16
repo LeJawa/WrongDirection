@@ -1,5 +1,6 @@
 ﻿using System;
 using GravityGames.MazJam1.Controllers;
+using GravityGames.MizJam1.Gameplay;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -53,6 +54,8 @@ namespace GravityGames.MizJam1.Controllers
         private void OnCollisionEnter(Collision other)
         {
             vehicleLights.enabled = false;
+            
+            GameEvents.Instance.TriggerPlayerCrashedEvent();
             
             Debug.Log("Player crashed");
         }

@@ -15,6 +15,7 @@ namespace GravityGames.MizJam1.Background
         
         private Transform[] _starTransforms;
         private float[] _distances;
+        private float[] _xLimits;
 
         private void Start()
         {
@@ -26,14 +27,14 @@ namespace GravityGames.MizJam1.Background
             _starTransforms = new Transform[numberOfStars];
             
             _distances = new float[numberOfStars];
-            for (int i = 0; i < _distances.Length; i++)
+            for (int i = 0; i < numberOfStars; i++)
             {
                 _distances[i] = Random.Range(minDistanceFromCamera, maxDistanceFromCamera);
             }
             
             Camera cameraMain = Camera.main;
             
-            for (int i = 0; i < _starTransforms.Length; i++)
+            for (int i = 0; i < numberOfStars; i++)
             {
                 Ray ray = cameraMain.ScreenPointToRay(new Vector2(Random.Range(0, 1920), Random.Range(0, 1080)));
                 
@@ -41,6 +42,20 @@ namespace GravityGames.MizJam1.Background
                 _starTransforms[i].parent = transform;
             }
             
+            _xLimits = new float[numberOfStars];
+
+            Vector3 cameraPos = cameraMain.transform.position;
+
+            for (int i = 0; i < numberOfStars; i++)
+            {
+                Vector3 pos = _starTransforms[i].position - cameraPos;
+
+                // _xLimits[i] = Mathf.Sqrt(pos.y * pos.y + pos.z * pos.z) / Mathf.Tan((90 - cameraMain.fieldOfView) * Mathf.Deg2Rad);
+                _xLimits[i] = Mathf.Sqrt(pos.y * pos.y + pos.z * pos.z) * 0.75f;
+
+
+            }
+
         }
 
         private void Update()
@@ -52,6 +67,11 @@ namespace GravityGames.MizJam1.Background
                 tmp = _starTransforms[i].position;
                 tmp.x -= Time.deltaTime * scrollingSpeed / _distances[i];
 
+                if (tmp.x < -_xLimits[i])
+                {
+                    tmp.x += _xLimits[i] * 2;
+                }
+                
                 _starTransforms[i].position = tmp;
             }
         }

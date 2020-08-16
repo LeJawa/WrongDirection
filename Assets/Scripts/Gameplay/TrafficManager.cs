@@ -90,7 +90,7 @@ namespace GravityGames.MizJam1.Gameplay
             _isLaneOcupied[lane] = false;
         }
 
-        private void StopSpawningVehicles()
+        public void StopSpawningVehicles()
         {
             _keepSpawing = false;
             CoroutineHelper.Instance.StopCoroutine(_spawingCoroutine);

@@ -17,19 +17,45 @@ namespace GravityGames.MizJam1.Gameplay
         private int _points;
 
         public TMP_Text pointsTextObject;
-        
+        public Animator pointsTextAnimator;
+        private static readonly int AddPoints = Animator.StringToHash("AddPoints");
+
+        public float timeScaleOnGameOver = 0.1f;
+
+        private bool _playing = false; 
+
         private void Awake()
         {
             _trafficManager = new TrafficManager(difficulty);
 
             GameEvents.Instance.OnSignalLane += HandleSignalLaneEvent;
-            GameEvents.Instance.OnDespawnVehicle += HandleDespawnVehicleEvent;
+            GameEvents.Instance.OnPointBarrierCrossed += HandlePointBarrierCrossedEvent;
+            GameEvents.Instance.OnPlayerCrashed += HandlePlayerCrashedEvent;
         }
 
-        private void HandleDespawnVehicleEvent(Vehicle vehicle)
+        private void HandlePlayerCrashedEvent()
+        {
+            Time.timeScale = timeScaleOnGameOver;
+            Time.fixedDeltaTime = Time.fixedDeltaTime * timeScaleOnGameOver;
+            
+            _trafficManager.StopSpawningVehicles();
+
+            _playing = false;
+        }
+
+        private void HandlePointBarrierCrossedEvent(Vehicle vehicle)
+        {
+            if (_playing)
+            {
+                AddVehiclePoints(vehicle);
+            }
+        }
+
+        private void AddVehiclePoints(Vehicle vehicle)
         {
             _points += vehicle.vehicleData.points;
             pointsTextObject.text = _points.ToString();
+            pointsTextAnimator.SetTrigger(AddPoints);
         }
 
         private void HandleSignalLaneEvent(int lane, float duration)
