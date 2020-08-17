@@ -19,9 +19,15 @@ namespace GravityGames.MizJam1.Gameplay
         public SpriteRenderer[] warningArray;
         private int _points;
 
+        public Transform HUDTransform;
+
         public TMP_Text pointsTextObject;
         public Animator pointsTextAnimator;
         private static readonly int AddPoints = Animator.StringToHash("AddPoints");
+
+        public GameObject mainMenu;
+
+        public GameObject prefabTutorial;
 
         public GameObject highscoreObject;
 
@@ -191,6 +197,8 @@ namespace GravityGames.MizJam1.Gameplay
             ResetHUDObjects();
             pointsTextObject.enabled = false;
             
+            mainMenu.SetActive(true);
+            
             _trafficManager.StopSpawningVehicles();
             playerController.CanMove = false;
 
@@ -213,6 +221,7 @@ namespace GravityGames.MizJam1.Gameplay
         {
             UpdatePointsTextObject();
             highscoreObject.SetActive(false);
+            mainMenu.SetActive(false);
             
             StopAllCoroutines();
             foreach (var warning in warningArray)
@@ -229,6 +238,8 @@ namespace GravityGames.MizJam1.Gameplay
             SetNormalTimeScale();
 
             playerController.CanMove = true;
+
+            Instantiate(prefabTutorial, HUDTransform);
             
             yield return new WaitForSeconds(2f);
             

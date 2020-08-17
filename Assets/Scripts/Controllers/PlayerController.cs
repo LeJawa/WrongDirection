@@ -23,6 +23,8 @@ namespace GravityGames.MizJam1.Controllers
 
         public ParticleSystem crashParticles;
 
+        public AudioSource crashSource;
+
         public bool CanMove { get; set; } = false;
 
         // Start is called before the first frame update
@@ -82,6 +84,7 @@ namespace GravityGames.MizJam1.Controllers
             vehicleLights.enabled = false;
             
             crashParticles.Play();
+            crashSource.Play();
             
             GameEvents.Instance.TriggerPlayerCrashedEvent();
         }
