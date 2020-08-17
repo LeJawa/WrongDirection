@@ -140,12 +140,22 @@ namespace GravityGames.MizJam1.Gameplay
         
         private void Update()
         {
+#if UNITY_STANDALONE || UNITY_EDITOR
             if (!_playing && LeanInput.GetDown(KeyCode.Return))
+#endif
+#if UNITY_ANDROID
+                if (!_playing && LeanInput.GetDown(KeyCode.Return))
+#endif
             {
                 StartGame();
             }
 
+#if UNITY_STANDALONE || UNITY_EDITOR
             if (LeanInput.GetDown(KeyCode.Escape))
+#endif
+#if UNITY_ANDROID
+                if (LeanInput.GetDown(KeyCode.Escape))
+#endif
             {
                 if (_exitTimer < 0.5f)
                 {
@@ -193,7 +203,8 @@ namespace GravityGames.MizJam1.Gameplay
         {
             UpdatePointsTextObject();
             highscoreObject.SetActive(false);
-
+            
+            StopAllCoroutines();
             foreach (var warning in warningArray)
             {
                 warning.enabled = false;

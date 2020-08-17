@@ -64,7 +64,7 @@ namespace GravityGames.MizJam1.Gameplay
                 int lane = Random.Range(0, NumberOfLanes);
                 while (_isLaneOcupied[lane])
                 {
-                    lane = Random.Range(0, NumberOfLanes);
+                    lane = (lane + 1) % NumberOfLanes;
                 }
                 
                 SpawnVehicle(lane, Direction.Left);
@@ -83,9 +83,9 @@ namespace GravityGames.MizJam1.Gameplay
         {
             _isLaneOcupied[lane] = true;
             
-            GameEvents.Instance.TriggerSignalLaneEvent(lane, _timeBetweenSpawns * 2);
+            GameEvents.Instance.TriggerSignalLaneEvent(lane, _timeBetweenSpawns);
 
-            var wait = new WaitForSeconds(_timeBetweenSpawns * 2);
+            var wait = new WaitForSeconds(_timeBetweenSpawns);
             
             yield return wait;
             
