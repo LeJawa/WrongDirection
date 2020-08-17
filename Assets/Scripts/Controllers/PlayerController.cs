@@ -1,6 +1,7 @@
 ﻿using System;
 using GravityGames.MazJam1.Controllers;
 using GravityGames.MizJam1.Gameplay;
+using Lean.Touch;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +14,7 @@ namespace GravityGames.MizJam1.Controllers
         private Rigidbody _rigidbody;
 
         private Controls _controls;
+        public float swipeDistanceThreshold = 1f;
         
         private Vector3 InitialPosition = new Vector3(-3, 0, 3);
         private Vector3 _position;
@@ -34,6 +36,23 @@ namespace GravityGames.MizJam1.Controllers
             _controls.Player.UpDownMovement.canceled += ctx => Stop();
             
             _position = InitialPosition;
+
+
+            Lean.Touch.LeanTouch.OnFingerSwipe += Move;
+        }
+
+        private void Move(LeanFinger fingerSwiped)
+        {
+            Vector2 fingerMovement = fingerSwiped.SwipeScaledDelta;
+
+            if (fingerMovement.y > swipeDistanceThreshold)
+            {
+                _position.z = Mathf.Clamp(_position.z + 1, 1, 5);
+            }
+            else if (fingerMovement.y < -swipeDistanceThreshold)
+            {
+                _position.z = Mathf.Clamp(_position.z + 1, 1, 5);
+            }
         }
 
         private void Move(float moveInput)
@@ -50,8 +69,6 @@ namespace GravityGames.MizJam1.Controllers
             }
 
             transform.position = _position;
-
-
         }
 
         private void Stop()

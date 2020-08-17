@@ -3,6 +3,7 @@ using Cinemachine;
 using GravityGames.MizJam1.Controllers;
 using GravityGames.MizJam1.ScriptableObjects;
 using Lean.Common;
+using Lean.Touch;
 using TMPro;
 using UnityEngine;
 
@@ -44,6 +45,8 @@ namespace GravityGames.MizJam1.Gameplay
             GameEvents.Instance.OnPointBarrierCrossed += HandlePointBarrierCrossedEvent;
             GameEvents.Instance.OnPlayerCrashed += HandlePlayerCrashedEvent;
             
+            LeanTouch.OnFingerTap += HandleFingerTap;
+            
             AnimationManager.Instance.InitializeAnimationManager();
 
             if (PlayerPrefs.HasKey(HighScoreKey))
@@ -53,6 +56,11 @@ namespace GravityGames.MizJam1.Gameplay
             }
 
             fixedDeltaTIme = Time.fixedDeltaTime;
+        }
+
+        private void HandleFingerTap(LeanFinger finger)
+        {
+            HandleStartPressed();
         }
 
         private void HandlePlayerCrashedEvent()
@@ -141,34 +149,36 @@ namespace GravityGames.MizJam1.Gameplay
         private void Update()
         {
 #if UNITY_STANDALONE || UNITY_EDITOR
-            if (!_playing && LeanInput.GetDown(KeyCode.Return))
+            if (LeanInput.GetDown(KeyCode.Return))
+            {
+                HandleStartPressed();
+            }
+            if (LeanInput.GetDown(KeyCode.Escape))
+            {
+                HandleEscapePressed();
+            }
 #endif
-#if UNITY_ANDROID
-                if (!_playing && LeanInput.GetDown(KeyCode.Return))
-#endif
+            _exitTimer += Time.unscaledDeltaTime;
+        }
+
+        private void HandleStartPressed()
+        {
+            if (!_playing)
             {
                 StartGame();
             }
+        }
 
-#if UNITY_STANDALONE || UNITY_EDITOR
-            if (LeanInput.GetDown(KeyCode.Escape))
-#endif
-#if UNITY_ANDROID
-                if (LeanInput.GetDown(KeyCode.Escape))
-#endif
+        private void HandleEscapePressed()
+        {
+            if (_exitTimer < 0.5f)
             {
-                if (_exitTimer < 0.5f)
-                {
-                    Debug.Log("Quit");
-                    Application.Quit();
-                }
-
-                _exitTimer = 0;
-                
-                BackToMenu();
+                Application.Quit();
             }
 
-            _exitTimer += Time.unscaledDeltaTime;
+            _exitTimer = 0;
+
+            BackToMenu();
         }
 
         private void BackToMenu()
