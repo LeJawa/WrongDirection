@@ -1,13 +1,22 @@
-﻿using System;
-using Lean.Common;
+﻿using Lean.Common;
 using UnityEngine;
 
 namespace GravityGames.MizJam1.Gameplay
 {
     public class Tutorial : MonoBehaviour
     {
+        private static bool _wasAlreadyCreated = false;
+        
         private bool wpressed = false;
         private bool spressed = false;
+
+        private void Start()
+        {
+            if (_wasAlreadyCreated) Destroy(gameObject);
+
+            _wasAlreadyCreated = true;
+
+        }
 
         private void Update()
         {
@@ -21,9 +30,9 @@ namespace GravityGames.MizJam1.Gameplay
                 spressed = true;
             }
 
-            if (spressed && wpressed)
+            if (spressed || wpressed)
             {
-                Destroy(gameObject, 1f);
+                Destroy(gameObject, 0.3f);
             }
         }
     }

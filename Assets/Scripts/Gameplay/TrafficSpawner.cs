@@ -45,7 +45,8 @@ namespace GravityGames.MizJam1.Gameplay
             }
 
             _tempGO.GetComponent<Vehicle>().StartMoving(direction);
-            
+            _tempGO.GetComponent<Collider>().enabled = true;
+
         }
 
         public void DespawnVehicle(Vehicle vehicle)

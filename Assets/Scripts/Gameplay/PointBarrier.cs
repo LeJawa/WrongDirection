@@ -10,7 +10,7 @@ namespace GravityGames.MizJam1.Gameplay
         {
             if (other.CompareTag("Vehicle"))
             {
-                GameEvents.Instance.TriggerointBarrierCrossedEvent(other.GetComponent<Vehicle>());
+                GameEvents.Instance.TriggerPointBarrierCrossedEvent(other.GetComponent<Vehicle>());
             }
         }
     }

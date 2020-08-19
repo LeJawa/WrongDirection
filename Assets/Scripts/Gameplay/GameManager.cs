@@ -1,11 +1,12 @@
 ﻿using System.Collections;
+using System.Diagnostics;
 using Cinemachine;
 using GravityGames.MizJam1.Controllers;
 using GravityGames.MizJam1.ScriptableObjects;
 using Lean.Common;
-using Lean.Touch;
 using TMPro;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace GravityGames.MizJam1.Gameplay
 {
@@ -15,6 +16,9 @@ namespace GravityGames.MizJam1.Gameplay
         
         private TrafficManager _trafficManager;
         public TrafficData difficulty;
+
+        public AudioSource music;
+        public float slowdownPitch;
 
         public SpriteRenderer[] warningArray;
         private int _points;
@@ -34,7 +38,7 @@ namespace GravityGames.MizJam1.Gameplay
         public float timeScaleOnGameOver = 0.1f;
         private float fixedDeltaTIme;
 
-        private bool _playing = false;
+        private GameState _state = GameState.Menu;
 
         public CinemachineVirtualCamera menuCamera;
 
@@ -51,8 +55,6 @@ namespace GravityGames.MizJam1.Gameplay
             GameEvents.Instance.OnPointBarrierCrossed += HandlePointBarrierCrossedEvent;
             GameEvents.Instance.OnPlayerCrashed += HandlePlayerCrashedEvent;
             
-            LeanTouch.OnFingerTap += HandleFingerTap;
-            
             AnimationManager.Instance.InitializeAnimationManager();
 
             if (PlayerPrefs.HasKey(HighScoreKey))
@@ -64,11 +66,6 @@ namespace GravityGames.MizJam1.Gameplay
             fixedDeltaTIme = Time.fixedDeltaTime;
         }
 
-        private void HandleFingerTap(LeanFinger finger)
-        {
-            HandleStartPressed();
-        }
-
         private void HandlePlayerCrashedEvent()
         {
             EndGame();
@@ -76,7 +73,7 @@ namespace GravityGames.MizJam1.Gameplay
 
         private void EndGame()
         {
-            _playing = false;
+            StartGameOverWait();
             
             SetBulletTimeScale();
 
@@ -88,10 +85,23 @@ namespace GravityGames.MizJam1.Gameplay
             HandleHighScore();
         }
 
+        private void StartGameOverWait()
+        {
+            _state = GameState.Waiting;
+            StartCoroutine(SwitchFromWaitingToGameOver());
+        }
+
+        private IEnumerator SwitchFromWaitingToGameOver()
+        {
+            yield return new WaitForSecondsRealtime(2f);
+            _state = GameState.GameOver;
+        }
+
         private void SetBulletTimeScale()
         {
             Time.timeScale = timeScaleOnGameOver;
             Time.fixedDeltaTime = Time.fixedDeltaTime * timeScaleOnGameOver;
+            music.pitch = slowdownPitch;
         }
 
         private void HandleHighScore()
@@ -108,7 +118,7 @@ namespace GravityGames.MizJam1.Gameplay
 
         private void HandlePointBarrierCrossedEvent(Vehicle vehicle)
         {
-            if (_playing)
+            if (_state == GameState.Playing)
             {
                 AddVehiclePoints(vehicle);
             }
@@ -151,12 +161,12 @@ namespace GravityGames.MizJam1.Gameplay
         }
 
         
-        
         private void Update()
         {
 #if UNITY_STANDALONE || UNITY_EDITOR
             if (LeanInput.GetDown(KeyCode.Return))
             {
+                Debug.Log("Enter pressed");
                 HandleStartPressed();
             }
             if (LeanInput.GetDown(KeyCode.Escape))
@@ -169,7 +179,7 @@ namespace GravityGames.MizJam1.Gameplay
 
         private void HandleStartPressed()
         {
-            if (!_playing)
+            if (_state == GameState.Menu || _state == GameState.GameOver)
             {
                 StartGame();
             }
@@ -191,7 +201,7 @@ namespace GravityGames.MizJam1.Gameplay
         {
             SetNormalTimeScale();
             
-            _playing = false;
+            _state = GameState.Menu;
             
             playerController.ResetPlayer();
             ResetHUDObjects();
@@ -209,7 +219,7 @@ namespace GravityGames.MizJam1.Gameplay
 
         private void StartGame()
         {
-            _playing = true;
+            _state = GameState.Playing;    
             playerController.ResetPlayer();
             _points = 0;
             ResetHUDObjects();
@@ -253,6 +263,7 @@ namespace GravityGames.MizJam1.Gameplay
         {
             Time.timeScale = 1;
             Time.fixedDeltaTime = fixedDeltaTIme;
+            music.pitch = 1;
         }
     }
 }

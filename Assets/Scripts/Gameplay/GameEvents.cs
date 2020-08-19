@@ -7,17 +7,8 @@ namespace GravityGames.MizJam1.Gameplay
     {
         #region Singleton pattern
         private static GameEvents _current;
-        public static GameEvents Instance
-        {
-            get
-            {
-                if (_current == null)
-                {
-                    _current = new GameEvents();
-                }
-                return _current;
-            }
-        }
+        public static GameEvents Instance => _current ?? (_current = new GameEvents());
+
         #endregion
         
         #region Action<int, float> OnSignalLane
@@ -51,11 +42,23 @@ namespace GravityGames.MizJam1.Gameplay
         #region Action<Vehicle> OnPointBarrierCrossed
         public event Action<Vehicle> OnPointBarrierCrossed;
 
-        public void TriggerointBarrierCrossedEvent(Vehicle vehicle)
+        public void TriggerPointBarrierCrossedEvent(Vehicle vehicle)
         {
             OnPointBarrierCrossed?.Invoke(vehicle);
         }
         #endregion
+        
+        
+        #region Action<float> OnVehicleSpeedIncreased
+        public event Action<float> OnVehicleSpeedIncreased;
+
+        public void TriggerVehicleSpeedIncreased(float increaseFactor)
+        {
+            OnVehicleSpeedIncreased?.Invoke(increaseFactor);
+        }
+        #endregion
+        
+        
         
 
     }

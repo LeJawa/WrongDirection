@@ -180,8 +180,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56d81dc355de81040887194952535c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  screenMidPoint: 0
   vehicleLights: {fileID: 2034799743}
   crashParticles: {fileID: 667265536445433327}
+  crashSource: {fileID: 0}
 --- !u!1 &667265535775900403
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,7 +245,7 @@ MonoBehaviour:
   m_PointLightInnerRadius: 0
   m_PointLightOuterRadius: 1
   m_PointLightDistance: 3
-  m_PointLightQuality: 1
+  m_PointLightQuality: 0
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -330,6 +332,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_PointLightOuterRadius
       value: 2.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351251869643796933, guid: 015d1fedf1cc1cf4a817ca6d517230ba,
+        type: 3}
+      propertyPath: m_PointLightQuality
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 015d1fedf1cc1cf4a817ca6d517230ba, type: 3}

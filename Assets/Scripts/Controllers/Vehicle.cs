@@ -2,7 +2,7 @@
 using GravityGames.MizJam1.Gameplay;
 using GravityGames.MizJam1.ScriptableObjects;
 using UnityEngine;
-using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace GravityGames.MizJam1.Controllers
 {
@@ -13,6 +13,8 @@ namespace GravityGames.MizJam1.Controllers
     {
         private Rigidbody _rigidbody;
         private float _initialVelocity;
+        private float _minVelocity;
+        private float _maxVelocity;
 
         public VehicleData vehicleData;
 
@@ -25,9 +27,15 @@ namespace GravityGames.MizJam1.Controllers
             _rigidbody = GetComponent<Rigidbody>();
 
             GetComponentInChildren<SpriteRenderer>().sprite = vehicleData.sprite;
-            _initialVelocity = vehicleData.initialVelocity;
+            ResetVelocity();
 
             gameObject.tag = "Vehicle";
+
+            GameEvents.Instance.OnVehicleSpeedIncreased += increaseFactor =>
+            {
+                _minVelocity *= increaseFactor;
+                _maxVelocity *= increaseFactor;
+            };
         }
 
         // Update is called once per frame
@@ -46,20 +54,31 @@ namespace GravityGames.MizJam1.Controllers
                 _rigidbody = GetComponent<Rigidbody>();
             }
 
+            var velocity = Random.Range(_minVelocity, _maxVelocity);
+            Debug.Log($"Velocity is {velocity}");
+            
             switch (direction)
             {
                 case Direction.Right:
-                    _rigidbody.AddForce(Vector3.right * _initialVelocity, ForceMode.VelocityChange);
+                    _rigidbody.AddForce(Vector3.right * velocity, ForceMode.VelocityChange);
                     break;
                 case Direction.Left:
-                    _rigidbody.AddForce(Vector3.left * _initialVelocity, ForceMode.VelocityChange);
+                    _rigidbody.AddForce(Vector3.left * velocity, ForceMode.VelocityChange);
                     break;
             }
         }
 
+        // ReSharper disable once UnusedParameter.Local
         private void OnCollisionEnter(Collision other)
         {
             crashParticles.Play();
+        }
+
+        public void ResetVelocity()
+        {
+            _initialVelocity = vehicleData.initialVelocity;
+            _minVelocity = 0.8f * _initialVelocity;
+            _maxVelocity = 1.2f * _initialVelocity;
         }
     }
 }
