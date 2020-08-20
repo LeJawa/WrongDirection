@@ -12,9 +12,6 @@ namespace GravityGames.MizJam1.Controllers
     public class Vehicle : MonoBehaviour
     {
         private Rigidbody _rigidbody;
-        private float _initialVelocity;
-        private float _minVelocity;
-        private float _maxVelocity;
 
         public VehicleData vehicleData;
 
@@ -25,17 +22,11 @@ namespace GravityGames.MizJam1.Controllers
         void Awake()
         {
             _rigidbody = GetComponent<Rigidbody>();
+            _rigidbody.mass = vehicleData.mass;
 
             GetComponentInChildren<SpriteRenderer>().sprite = vehicleData.sprite;
-            ResetVelocity();
 
             gameObject.tag = "Vehicle";
-
-            GameEvents.Instance.OnVehicleSpeedIncreased += increaseFactor =>
-            {
-                _minVelocity *= increaseFactor;
-                _maxVelocity *= increaseFactor;
-            };
         }
 
         // Update is called once per frame
@@ -47,38 +38,19 @@ namespace GravityGames.MizJam1.Controllers
             }
         } 
 
-        public void StartMoving(Direction direction = Direction.Left)
+        public void StartMoving(float impulseForce)
         {
             if (_rigidbody == null)
             {
                 _rigidbody = GetComponent<Rigidbody>();
             }
-
-            var velocity = Random.Range(_minVelocity, _maxVelocity);
-            Debug.Log($"Velocity is {velocity}");
-            
-            switch (direction)
-            {
-                case Direction.Right:
-                    _rigidbody.AddForce(Vector3.right * velocity, ForceMode.VelocityChange);
-                    break;
-                case Direction.Left:
-                    _rigidbody.AddForce(Vector3.left * velocity, ForceMode.VelocityChange);
-                    break;
-            }
+                _rigidbody.AddForce(Vector3.left * impulseForce, ForceMode.Impulse);
         }
 
         // ReSharper disable once UnusedParameter.Local
         private void OnCollisionEnter(Collision other)
         {
             crashParticles.Play();
-        }
-
-        public void ResetVelocity()
-        {
-            _initialVelocity = vehicleData.initialVelocity;
-            _minVelocity = 0.8f * _initialVelocity;
-            _maxVelocity = 1.2f * _initialVelocity;
         }
     }
 }

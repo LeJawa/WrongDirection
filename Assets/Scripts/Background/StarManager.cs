@@ -32,8 +32,6 @@ namespace GravityGames.MizJam1.Background
                 _distances[i] = Random.Range(minDistanceFromCamera, maxDistanceFromCamera);
             }
             
-            Camera cameraMain = Camera.main;
-            
             for (int i = 0; i < numberOfStars; i++)
             {
                 Ray ray = cameraMain.ScreenPointToRay(new Vector2(Random.Range(0, 1920), Random.Range(0, 1080)));
@@ -52,8 +50,6 @@ namespace GravityGames.MizJam1.Background
 
                 // _xLimits[i] = Mathf.Sqrt(pos.y * pos.y + pos.z * pos.z) / Mathf.Tan((90 - cameraMain.fieldOfView) * Mathf.Deg2Rad);
                 _xLimits[i] = Mathf.Sqrt(pos.y * pos.y + pos.z * pos.z) * 0.75f;
-
-
             }
 
         }

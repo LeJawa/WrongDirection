@@ -8,6 +8,10 @@ namespace GravityGames.MizJam1.ScriptableObjects
         public float timeBetweenSpawns = 0.5f;
         public float deltaTimeBetweenSpawns = .2f;
 
+        public float fastVehicleSpawnWeight = 1;
+        public float mediumVehicleSpawnWeight = 4;
+        public float slowVehicleSpawnWeight = 2;
+
         public float speedIncreaseFactor = 1.1f;
         public float timeBetweenSpeedIncreases = 10f;
     }

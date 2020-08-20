@@ -16,6 +16,11 @@ namespace GravityGames.MizJam1.Gameplay
         private bool[] _isLaneOccupied;
         private Coroutine[] _vehicleSpawnCoroutines;
 
+        private float _totalSpawnWeight;
+        private float _fastVehicleSpawnWeight;
+        private float _mediumVehicleSpawnWeight;
+        private float _slowVehicleSpawnWeight;
+
         private readonly float _timeBetweenSpawns;
         private readonly float _deltaTimeBetweenSpawns;
         
@@ -33,6 +38,14 @@ namespace GravityGames.MizJam1.Gameplay
             _deltaTimeBetweenSpawns = _trafficData.deltaTimeBetweenSpawns;
             _speedIncreaseFactor = _trafficData.speedIncreaseFactor;
             _timeBetweenSpeedIncreases = _trafficData.timeBetweenSpeedIncreases;
+            var fastVehicleSpawnWeightRaw = _trafficData.fastVehicleSpawnWeight;
+            var mediumVehicleSpawnWeightRaw = _trafficData.mediumVehicleSpawnWeight;
+            var slowVehicleSpawnWeightRaw = _trafficData.slowVehicleSpawnWeight;
+
+            _totalSpawnWeight = slowVehicleSpawnWeightRaw + mediumVehicleSpawnWeightRaw + fastVehicleSpawnWeightRaw;
+            _slowVehicleSpawnWeight = slowVehicleSpawnWeightRaw;
+            _mediumVehicleSpawnWeight = _slowVehicleSpawnWeight + mediumVehicleSpawnWeightRaw;
+            _fastVehicleSpawnWeight = _mediumVehicleSpawnWeight + fastVehicleSpawnWeightRaw;
             
             _trafficSpawner = new TrafficSpawner();
             
@@ -79,7 +92,7 @@ namespace GravityGames.MizJam1.Gameplay
                     lane = (lane + 1) % NumberOfLanes;
                 }
                 
-                SpawnVehicle(lane, Direction.Left);
+                SpawnVehicle(lane);
                 
                 yield return new WaitForSeconds(Random.Range(minTimeBetweenSpawns, maxTimeBetweenSpawns));
                 
@@ -87,13 +100,13 @@ namespace GravityGames.MizJam1.Gameplay
             }
         }
 
-        private void SpawnVehicle(int lane, Direction direction)
+        private void SpawnVehicle(int lane)
         {
-            _vehicleSpawnCoroutines[lane] = CoroutineHelper.Instance.StartCoroutine(SpawnVehicleCoroutine(lane, direction));
+            _vehicleSpawnCoroutines[lane] = CoroutineHelper.Instance.StartCoroutine(SpawnVehicleCoroutine(lane));
         }
 
 
-        private IEnumerator SpawnVehicleCoroutine(int lane, Direction direction)
+        private IEnumerator SpawnVehicleCoroutine(int lane)
         {
             _isLaneOccupied[lane] = true;
             
@@ -102,8 +115,23 @@ namespace GravityGames.MizJam1.Gameplay
             var wait = new WaitForSeconds(_timeBetweenSpawns);
             
             yield return wait;
-            
-            _trafficSpawner.SpawnVehicle(new Vector3(11, 0, lane + 1), direction);
+
+
+            var rdm = Random.Range(0, _totalSpawnWeight);
+            Vector3 position = new Vector3(11, 0, lane + 1);
+
+            if (rdm < _slowVehicleSpawnWeight)
+            {
+                _trafficSpawner.SpawnSlowVehicle(position);
+            }
+            else if (rdm < _mediumVehicleSpawnWeight)
+            {
+                _trafficSpawner.SpawnMediumVehicle(position);
+            }
+            else
+            {
+                _trafficSpawner.SpawnFastVehicle(position);
+            }
             
             yield return wait;
 
@@ -132,6 +160,8 @@ namespace GravityGames.MizJam1.Gameplay
             {
                 vehicle.GetComponent<Collider>().enabled = false;
             }
+            
+            _trafficSpawner.ResetVehicleInitialImpulse();
             
         }
 

@@ -1,11 +1,11 @@
 ﻿using System.Collections;
-using System.Diagnostics;
 using Cinemachine;
 using GravityGames.MizJam1.Controllers;
 using GravityGames.MizJam1.ScriptableObjects;
-using Lean.Common;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Debug = UnityEngine.Debug;
 
 namespace GravityGames.MizJam1.Gameplay
@@ -47,6 +47,11 @@ namespace GravityGames.MizJam1.Gameplay
 
         private float _exitTimer = 0;
 
+        public SpriteRenderer secondsToStartAgain;
+        public SpriteMask StartAgainTimerMask;
+        public Sprite[] spriteNumberArray;
+        public Sprite[] spriteBorderMaskArray;
+
         private void Awake()
         {
             _trafficManager = new TrafficManager(difficulty);
@@ -87,14 +92,53 @@ namespace GravityGames.MizJam1.Gameplay
 
         private void StartGameOverWait()
         {
-            _state = GameState.Waiting;
-            StartCoroutine(SwitchFromWaitingToGameOver());
+            _state = GameState.GameOver;
+            StartCoroutine(StartGameAfterWaiting());
         }
 
-        private IEnumerator SwitchFromWaitingToGameOver()
+        private IEnumerator StartGameAfterWaiting()
         {
-            yield return new WaitForSecondsRealtime(2f);
-            _state = GameState.GameOver;
+            StartAgainTimerMask.gameObject.SetActive(true);
+            secondsToStartAgain.sprite = spriteNumberArray[3];
+            StartAgainTimerMask.sprite = spriteBorderMaskArray[0];
+            
+            var quarterSecond = new WaitForSecondsRealtime(0.2f);
+            yield return quarterSecond;
+            StartAgainTimerMask.sprite = spriteBorderMaskArray[1];
+            yield return quarterSecond;
+            StartAgainTimerMask.sprite = spriteBorderMaskArray[2];
+            yield return quarterSecond;
+            StartAgainTimerMask.sprite = spriteBorderMaskArray[3];
+            yield return quarterSecond;
+            StartAgainTimerMask.sprite = spriteBorderMaskArray[4];
+            yield return quarterSecond;
+            secondsToStartAgain.sprite = spriteNumberArray[2];
+            StartAgainTimerMask.sprite = spriteBorderMaskArray[0];
+            yield return quarterSecond;
+            StartAgainTimerMask.sprite = spriteBorderMaskArray[1];
+            yield return quarterSecond;
+            StartAgainTimerMask.sprite = spriteBorderMaskArray[2];
+            yield return quarterSecond;
+            StartAgainTimerMask.sprite = spriteBorderMaskArray[3];
+            yield return quarterSecond;
+            StartAgainTimerMask.sprite = spriteBorderMaskArray[4];
+            yield return quarterSecond;
+            secondsToStartAgain.sprite = spriteNumberArray[1];
+            StartAgainTimerMask.sprite = spriteBorderMaskArray[0];
+            yield return quarterSecond;
+            StartAgainTimerMask.sprite = spriteBorderMaskArray[1];
+            yield return quarterSecond;
+            StartAgainTimerMask.sprite = spriteBorderMaskArray[2];
+            yield return quarterSecond;
+            StartAgainTimerMask.sprite = spriteBorderMaskArray[3];
+            yield return quarterSecond;
+            StartAgainTimerMask.sprite = spriteBorderMaskArray[4];
+            yield return quarterSecond;
+            secondsToStartAgain.sprite = spriteNumberArray[0];
+            StartAgainTimerMask.sprite = spriteBorderMaskArray[0];
+            yield return quarterSecond;
+            
+            StartGame();
         }
 
         private void SetBulletTimeScale()
@@ -163,23 +207,21 @@ namespace GravityGames.MizJam1.Gameplay
         
         private void Update()
         {
-#if UNITY_STANDALONE || UNITY_EDITOR
-            if (LeanInput.GetDown(KeyCode.Return))
+            if (InputSystem.GetDevice<Keyboard>().enterKey.wasPressedThisFrame)
             {
                 Debug.Log("Enter pressed");
                 HandleStartPressed();
             }
-            if (LeanInput.GetDown(KeyCode.Escape))
+            if (InputSystem.GetDevice<Keyboard>().escapeKey.wasPressedThisFrame)
             {
                 HandleEscapePressed();
             }
-#endif
             _exitTimer += Time.unscaledDeltaTime;
         }
 
         private void HandleStartPressed()
         {
-            if (_state == GameState.Menu || _state == GameState.GameOver)
+            if (_state != GameState.Playing)
             {
                 StartGame();
             }
@@ -232,6 +274,7 @@ namespace GravityGames.MizJam1.Gameplay
             UpdatePointsTextObject();
             highscoreObject.SetActive(false);
             mainMenu.SetActive(false);
+            StartAgainTimerMask.gameObject.SetActive(false);
             
             StopAllCoroutines();
             foreach (var warning in warningArray)

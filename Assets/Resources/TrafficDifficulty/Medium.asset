@@ -13,3 +13,9 @@ MonoBehaviour:
   m_Name: Medium
   m_EditorClassIdentifier: 
   timeBetweenSpawns: 0.5
+  deltaTimeBetweenSpawns: 0.2
+  fastVehicleSpawnWeight: 1
+  mediumVehicleSpawnWeight: 10
+  slowVehicleSpawnWeight: 0.5
+  speedIncreaseFactor: 1.05
+  timeBetweenSpeedIncreases: 10
