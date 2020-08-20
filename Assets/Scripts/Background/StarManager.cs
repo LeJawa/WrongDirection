@@ -49,7 +49,7 @@ namespace GravityGames.MizJam1.Background
                 Vector3 pos = _starTransforms[i].position - cameraPos;
 
                 // _xLimits[i] = Mathf.Sqrt(pos.y * pos.y + pos.z * pos.z) / Mathf.Tan((90 - cameraMain.fieldOfView) * Mathf.Deg2Rad);
-                _xLimits[i] = Mathf.Sqrt(pos.y * pos.y + pos.z * pos.z) * 0.75f;
+                _xLimits[i] = Mathf.Sqrt(pos.y * pos.y + pos.z * pos.z) * 0.8f;
             }
 
         }

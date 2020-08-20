@@ -41,6 +41,7 @@ namespace GravityGames.MizJam1.Gameplay
         private GameState _state = GameState.Menu;
 
         public CinemachineVirtualCamera menuCamera;
+        public CinemachineVirtualCamera gameOverCamera;
 
         private const string HighScoreKey = "HighScore";
         private int _highScore = 0;
@@ -81,6 +82,7 @@ namespace GravityGames.MizJam1.Gameplay
             StartGameOverWait();
             
             SetBulletTimeScale();
+            gameOverCamera.Priority = 20;
 
             _trafficManager.StopSpawningVehicles();
             playerController.CanMove = false;
@@ -261,6 +263,7 @@ namespace GravityGames.MizJam1.Gameplay
 
         private void StartGame()
         {
+            gameOverCamera.Priority = 0;
             _state = GameState.Playing;    
             playerController.ResetPlayer();
             _points = 0;
