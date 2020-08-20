@@ -59,6 +59,16 @@ namespace GravityGames.MizJam1.Gameplay
         #endregion
         
         
+        #region Action<TrafficEvent> OnTrafficEventInvoked
+        public event Action<TrafficEvent> OnTrafficEventInvoked;
+
+        public void TriggerTrafficEvent(TrafficEvent trafficEvent)
+        {
+            OnTrafficEventInvoked?.Invoke(trafficEvent);
+        }
+        #endregion
+        
+        
         
 
     }

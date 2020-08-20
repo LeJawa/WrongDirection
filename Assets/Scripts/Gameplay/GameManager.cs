@@ -5,8 +5,8 @@ using GravityGames.MizJam1.ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using Debug = UnityEngine.Debug;
+// ReSharper disable Unity.InefficientPropertyAccess
 
 namespace GravityGames.MizJam1.Gameplay
 {
@@ -52,6 +52,8 @@ namespace GravityGames.MizJam1.Gameplay
         public SpriteMask StartAgainTimerMask;
         public Sprite[] spriteNumberArray;
         public Sprite[] spriteBorderMaskArray;
+        
+        private int _numberOfTrafficEvents = 0;
 
         private void Awake()
         {
@@ -174,6 +176,12 @@ namespace GravityGames.MizJam1.Gameplay
         {
             _points += vehicle.vehicleData.points;
             UpdatePointsTextObject();
+
+            if (_points > (250 * (1+_numberOfTrafficEvents) ))
+            {
+                GameEvents.Instance.TriggerTrafficEvent(new TrafficEvent(2, 1f));
+                _numberOfTrafficEvents++;
+            }
         }
 
         private void UpdatePointsTextObject()
@@ -267,6 +275,7 @@ namespace GravityGames.MizJam1.Gameplay
             _state = GameState.Playing;    
             playerController.ResetPlayer();
             _points = 0;
+            _numberOfTrafficEvents = 0;
             ResetHUDObjects();
 
             StartCoroutine(StartGameCoroutine());

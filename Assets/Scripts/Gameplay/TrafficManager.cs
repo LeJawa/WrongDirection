@@ -58,6 +58,42 @@ namespace GravityGames.MizJam1.Gameplay
             }
 
             GameEvents.Instance.OnDespawnVehicle += HandleDespawnVehicleEvent;
+
+            GameEvents.Instance.OnTrafficEventInvoked += HandleTrafficEventInvoked;
+        }
+
+        private void HandleTrafficEventInvoked(TrafficEvent trafficEvent)
+        {
+            PauseSpawningVehicles();
+
+            CoroutineHelper.Instance.StartCoroutine(StartTrafficEventCoroutine(trafficEvent));
+        }
+
+        private IEnumerator StartTrafficEventCoroutine(TrafficEvent trafficEvent)
+        {
+            yield return new WaitForSeconds(2f);
+
+            for (int wave = 0; wave < trafficEvent.NumberOfWaves; wave++)
+            {
+                for (int lane = 0; lane < 5; lane++)
+                {
+                    if (trafficEvent.vehiclesPerLaneAndWave[wave, lane])
+                    {
+                        SpawnVehicle(lane);
+                    }
+                }
+                yield return new WaitForSeconds(trafficEvent.TimeBetweenWaves);
+            }
+            
+            yield return new WaitForSeconds(1f);
+            
+            RestartSpawningVehicles();
+        }
+
+        private void RestartSpawningVehicles()
+        {
+            GameEvents.Instance.TriggerVehicleSpeedIncreased(_speedIncreaseFactor);
+            StartSpawningVehicles();
         }
 
         private void HandleDespawnVehicleEvent(Vehicle vehicle)
@@ -94,9 +130,7 @@ namespace GravityGames.MizJam1.Gameplay
                 
                 SpawnVehicle(lane);
                 
-                yield return new WaitForSeconds(Random.Range(minTimeBetweenSpawns, maxTimeBetweenSpawns));
-                
-                
+                yield return new WaitForSeconds(Random.Range(minTimeBetweenSpawns, maxTimeBetweenSpawns));  
             }
         }
 
@@ -138,6 +172,12 @@ namespace GravityGames.MizJam1.Gameplay
             _isLaneOccupied[lane] = false;
         }
 
+        private void PauseSpawningVehicles()
+        {
+            _keepSpawning = false;
+            CoroutineHelper.Instance.StopCoroutine(_spawningCoroutine);
+        }
+
         public void StopSpawningVehicles()
         {
             _keepSpawning = false;
@@ -150,6 +190,8 @@ namespace GravityGames.MizJam1.Gameplay
                     CoroutineHelper.Instance.StopCoroutine(coroutine);
                 }
             }
+            
+            CoroutineHelper.Instance.StopAllCoroutines();
 
             for (int lane = 0; lane < NumberOfLanes; lane++)
             {
