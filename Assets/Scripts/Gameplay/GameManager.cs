@@ -5,6 +5,7 @@ using GravityGames.MizJam1.ScriptableObjects;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Debug = UnityEngine.Debug;
 // ReSharper disable Unity.InefficientPropertyAccess
 
@@ -29,11 +30,13 @@ namespace GravityGames.MizJam1.Gameplay
         public Animator pointsTextAnimator;
         private static readonly int AddPoints = Animator.StringToHash("AddPoints");
 
+        public TMP_Text highScoreTextObject;
+
         public GameObject mainMenu;
 
         public GameObject prefabTutorial;
 
-        public GameObject highscoreObject;
+        public GameObject newHighScoreObject;
 
         public float timeScaleOnGameOver = 0.1f;
         private float fixedDeltaTIme;
@@ -69,9 +72,24 @@ namespace GravityGames.MizJam1.Gameplay
             {
                 // PlayerPrefs.DeleteKey(HighScoreKey);
                 _highScore = PlayerPrefs.GetInt(HighScoreKey);
+
+                UpdateHighScore();
+                if (_highScore > 0)
+                {
+                    highScoreTextObject.enabled = true;
+                }
+                
             }
 
             fixedDeltaTIme = Time.fixedDeltaTime;
+        }
+
+        private void UpdateHighScore()
+        {
+            if (_highScore > 0)
+            {
+                highScoreTextObject.text = $"High score:\n{_highScore}";
+            }
         }
 
         private void HandlePlayerCrashedEvent()
@@ -160,7 +178,8 @@ namespace GravityGames.MizJam1.Gameplay
                 PlayerPrefs.SetInt(HighScoreKey, _highScore);
                 PlayerPrefs.Save();
                 
-                highscoreObject.SetActive(true);
+                newHighScoreObject.SetActive(true);
+                UpdateHighScore();
             }
         }
 
@@ -177,9 +196,9 @@ namespace GravityGames.MizJam1.Gameplay
             _points += vehicle.vehicleData.points;
             UpdatePointsTextObject();
 
-            if (_points > (250 * (1+_numberOfTrafficEvents) ))
+            if (_points > ( (250 + 50 * _numberOfTrafficEvents) * (1 + _numberOfTrafficEvents) ))
             {
-                GameEvents.Instance.TriggerTrafficEvent(new TrafficEvent(2, 1f));
+                GameEvents.Instance.TriggerTrafficEvent(new TrafficEvent(1+_numberOfTrafficEvents, 1f));
                 _numberOfTrafficEvents++;
             }
         }
@@ -260,6 +279,10 @@ namespace GravityGames.MizJam1.Gameplay
             pointsTextObject.enabled = false;
             
             mainMenu.SetActive(true);
+            if (_highScore > 0)
+            {
+                highScoreTextObject.enabled = true;
+            }
             
             _trafficManager.StopSpawningVehicles();
             playerController.CanMove = false;
@@ -284,8 +307,9 @@ namespace GravityGames.MizJam1.Gameplay
         private void ResetHUDObjects()
         {
             UpdatePointsTextObject();
-            highscoreObject.SetActive(false);
+            newHighScoreObject.SetActive(false);
             mainMenu.SetActive(false);
+            highScoreTextObject.enabled = false;
             StartAgainTimerMask.gameObject.SetActive(false);
             
             StopAllCoroutines();
@@ -298,7 +322,7 @@ namespace GravityGames.MizJam1.Gameplay
         private IEnumerator StartGameCoroutine()
         {
             AnimationManager.Instance.StartClosePanelAnimation();
-            menuCamera.Priority = 0;
+            menuCamera.Priority = 5;
             
             SetNormalTimeScale();
 
