@@ -2,10 +2,10 @@
 using Cinemachine;
 using GravityGames.MizJam1.Controllers;
 using GravityGames.MizJam1.ScriptableObjects;
+using GravityGames.MizJam1.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using Debug = UnityEngine.Debug;
 // ReSharper disable Unity.InefficientPropertyAccess
 
@@ -18,7 +18,8 @@ namespace GravityGames.MizJam1.Gameplay
         private TrafficManager _trafficManager;
         public TrafficData difficulty;
 
-        public AudioSource music;
+        public AudioSource menuMusic;
+        public AudioSource gameMusic;
         public float slowdownPitch;
 
         public SpriteRenderer[] warningArray;
@@ -57,6 +58,7 @@ namespace GravityGames.MizJam1.Gameplay
         public Sprite[] spriteBorderMaskArray;
         
         private int _numberOfTrafficEvents = 0;
+        private int _spawnWeightIncreases = 0;
 
         private void Awake()
         {
@@ -167,7 +169,7 @@ namespace GravityGames.MizJam1.Gameplay
         {
             Time.timeScale = timeScaleOnGameOver;
             Time.fixedDeltaTime = Time.fixedDeltaTime * timeScaleOnGameOver;
-            music.pitch = slowdownPitch;
+            gameMusic.pitch = slowdownPitch;
         }
 
         private void HandleHighScore()
@@ -200,6 +202,12 @@ namespace GravityGames.MizJam1.Gameplay
             {
                 GameEvents.Instance.TriggerTrafficEvent(new TrafficEvent(1+_numberOfTrafficEvents, 1f));
                 _numberOfTrafficEvents++;
+            }
+
+            if (_points > 1000 * (1 + _spawnWeightIncreases))
+            {
+                _trafficManager.IncreaseSpawnWeights();
+                _spawnWeightIncreases++;
             }
         }
 
@@ -265,7 +273,10 @@ namespace GravityGames.MizJam1.Gameplay
 
             _exitTimer = 0;
 
-            BackToMenu();
+            if (_state != GameState.Menu)
+            {
+                BackToMenu();
+            }
         }
 
         private void BackToMenu()
@@ -290,6 +301,9 @@ namespace GravityGames.MizJam1.Gameplay
             AnimationManager.Instance.StartOpenPanelAnimation();
             
             menuCamera.Priority = 50;
+            
+            StartCoroutine(AudioFadeOut.FadeOut(gameMusic, 0.5f));
+            menuMusic.Play();
         }
 
         private void StartGame()
@@ -300,6 +314,8 @@ namespace GravityGames.MizJam1.Gameplay
             _points = 0;
             _numberOfTrafficEvents = 0;
             ResetHUDObjects();
+
+            StartCoroutine(AudioFadeOut.FadeOut(menuMusic, 0.3f));
 
             StartCoroutine(StartGameCoroutine());
         }
@@ -330,7 +346,13 @@ namespace GravityGames.MizJam1.Gameplay
 
             Instantiate(prefabTutorial, HUDTransform);
             
-            yield return new WaitForSeconds(2f);
+            gameMusic.Stop();
+            
+            yield return new WaitForSeconds(1f);
+            
+            gameMusic.Play();
+            
+            yield return new WaitForSeconds(1f);
             
             
             _trafficManager.StartSpawningVehicles();
@@ -342,7 +364,7 @@ namespace GravityGames.MizJam1.Gameplay
         {
             Time.timeScale = 1;
             Time.fixedDeltaTime = fixedDeltaTIme;
-            music.pitch = 1;
+            gameMusic.pitch = 1;
         }
     }
 }

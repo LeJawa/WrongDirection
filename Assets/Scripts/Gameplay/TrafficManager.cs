@@ -17,6 +17,9 @@ namespace GravityGames.MizJam1.Gameplay
         private Coroutine[] _vehicleSpawnCoroutines;
 
         private float _totalSpawnWeight;
+        private float _fastVehicleSpawnWeightRaw;
+        private float _mediumVehicleSpawnWeightRaw;
+        private float _slowVehicleSpawnWeightRaw;
         private float _fastVehicleSpawnWeight;
         private float _mediumVehicleSpawnWeight;
         private float _slowVehicleSpawnWeight;
@@ -30,7 +33,7 @@ namespace GravityGames.MizJam1.Gameplay
         private Coroutine _spawningCoroutine;
         private bool _keepSpawning = true;
 
-        
+
         public TrafficManager(TrafficData trafficData)
         {
             _trafficData = trafficData;
@@ -38,14 +41,11 @@ namespace GravityGames.MizJam1.Gameplay
             _deltaTimeBetweenSpawns = _trafficData.deltaTimeBetweenSpawns;
             _speedIncreaseFactor = _trafficData.speedIncreaseFactor;
             _timeBetweenSpeedIncreases = _trafficData.timeBetweenSpeedIncreases;
-            var fastVehicleSpawnWeightRaw = _trafficData.fastVehicleSpawnWeight;
-            var mediumVehicleSpawnWeightRaw = _trafficData.mediumVehicleSpawnWeight;
-            var slowVehicleSpawnWeightRaw = _trafficData.slowVehicleSpawnWeight;
+            _fastVehicleSpawnWeightRaw = _trafficData.fastVehicleSpawnWeight;
+            _mediumVehicleSpawnWeightRaw = _trafficData.mediumVehicleSpawnWeight;
+            _slowVehicleSpawnWeightRaw = _trafficData.slowVehicleSpawnWeight;
 
-            _totalSpawnWeight = slowVehicleSpawnWeightRaw + mediumVehicleSpawnWeightRaw + fastVehicleSpawnWeightRaw;
-            _slowVehicleSpawnWeight = slowVehicleSpawnWeightRaw;
-            _mediumVehicleSpawnWeight = _slowVehicleSpawnWeight + mediumVehicleSpawnWeightRaw;
-            _fastVehicleSpawnWeight = _mediumVehicleSpawnWeight + fastVehicleSpawnWeightRaw;
+            UpdateSpawnWeights();
             
             _trafficSpawner = new TrafficSpawner();
             
@@ -60,6 +60,29 @@ namespace GravityGames.MizJam1.Gameplay
             GameEvents.Instance.OnDespawnVehicle += HandleDespawnVehicleEvent;
 
             GameEvents.Instance.OnTrafficEventInvoked += HandleTrafficEventInvoked;
+        }
+
+        public void IncreaseSpawnWeights()
+        {
+            if (_mediumVehicleSpawnWeightRaw > 1)
+            {
+                _mediumVehicleSpawnWeightRaw -= 1;
+            }
+
+            if (_slowVehicleSpawnWeightRaw < 1)
+            {
+                _slowVehicleSpawnWeightRaw += 0.1f;
+            }
+
+            UpdateSpawnWeights();
+        }
+
+        private void UpdateSpawnWeights()
+        {
+            _totalSpawnWeight = _slowVehicleSpawnWeightRaw + _mediumVehicleSpawnWeightRaw + _fastVehicleSpawnWeightRaw;
+            _slowVehicleSpawnWeight = _slowVehicleSpawnWeightRaw;
+            _mediumVehicleSpawnWeight = _slowVehicleSpawnWeight + _mediumVehicleSpawnWeightRaw;
+            _fastVehicleSpawnWeight = _mediumVehicleSpawnWeight + _fastVehicleSpawnWeightRaw;
         }
 
         private void HandleTrafficEventInvoked(TrafficEvent trafficEvent)
@@ -119,6 +142,13 @@ namespace GravityGames.MizJam1.Gameplay
                 if (Time.time > time + _timeBetweenSpeedIncreases)
                 {
                     GameEvents.Instance.TriggerVehicleSpeedIncreased(_speedIncreaseFactor);
+
+                    if (minTimeBetweenSpawns > 0.3125f)
+                    {
+                        minTimeBetweenSpawns -= 0.05f;
+                        maxTimeBetweenSpawns -= 0.05f;
+                    }
+                    
                     time = Time.time;
                 }
                 
