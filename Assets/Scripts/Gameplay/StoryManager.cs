@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Cinemachine;
+using GravityGames.MizJam1.Background;
 using TMPro;
 using UnityEngine;
 
@@ -9,13 +10,17 @@ namespace GravityGames.MizJam1.Gameplay
     {
         public CinemachineVirtualCamera cam1;
         public CinemachineVirtualCamera cam2;
+        
+        public int cameraChangeIndex = 3;
+        
+        public RoadManager RoadManager;
 
         public TMP_Text[] storyTextArray;
 
-        public int cameraChangeIndex = 4;
-
         public float[] waitTimeInSeconds;
 
+        private bool _roadsDestroyed = false;
+        
         public void StartStory()
         {
             cam1.Priority = 150;
@@ -26,6 +31,13 @@ namespace GravityGames.MizJam1.Gameplay
         {
             yield return new WaitForSecondsRealtime(1.5f);
             storyTextArray[0].enabled = true;
+
+            if (!_roadsDestroyed)
+            {
+                RoadManager.FadeOutRoads(18f);
+                _roadsDestroyed = true;
+            }
+            
             yield return new WaitForSecondsRealtime(waitTimeInSeconds[0]);
 
             for (int i = 1; i < storyTextArray.Length; i++)

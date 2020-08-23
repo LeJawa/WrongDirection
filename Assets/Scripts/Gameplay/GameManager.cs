@@ -46,6 +46,7 @@ namespace GravityGames.MizJam1.Gameplay
 
         public CinemachineVirtualCamera menuCamera;
         public CinemachineVirtualCamera gameOverCamera;
+        public CinemachineVirtualCamera gameplayCamera;
 
         private const string HighScoreKey = "HighScore";
         private int _highScore = 0;
@@ -263,6 +264,8 @@ namespace GravityGames.MizJam1.Gameplay
 
         private void StartStory()
         {
+            _state = GameState.Story;
+            menuCamera.Priority = 5;
             DeactivateMenuObjects();
             storyManager.StartStory();
         }
@@ -349,7 +352,8 @@ namespace GravityGames.MizJam1.Gameplay
         private IEnumerator StartGameCoroutine()
         {
             menuCamera.Priority = 5;
-            
+            gameplayCamera.Priority = 10;
+
             SetNormalTimeScale();
 
             playerController.CanMove = true;
