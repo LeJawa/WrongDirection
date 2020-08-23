@@ -4,7 +4,7 @@
     {
         Menu,
         Playing,
-        Waiting,
+        Story,
         GameOver
     }
 }

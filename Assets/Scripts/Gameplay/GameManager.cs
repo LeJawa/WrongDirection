@@ -14,6 +14,8 @@ namespace GravityGames.MizJam1.Gameplay
     public class GameManager : MonoBehaviour
     {
         public PlayerController playerController;
+
+        public StoryManager storyManager;
         
         private TrafficManager _trafficManager;
         public TrafficData difficulty;
@@ -34,8 +36,6 @@ namespace GravityGames.MizJam1.Gameplay
         public TMP_Text highScoreTextObject;
 
         public GameObject mainMenu;
-
-        public GameObject prefabTutorial;
 
         public GameObject newHighScoreObject;
 
@@ -67,6 +67,7 @@ namespace GravityGames.MizJam1.Gameplay
             GameEvents.Instance.OnSignalLane += HandleSignalLaneEvent;
             GameEvents.Instance.OnPointBarrierCrossed += HandlePointBarrierCrossedEvent;
             GameEvents.Instance.OnPlayerCrashed += HandlePlayerCrashedEvent;
+            GameEvents.Instance.OnStoryEnded += HandleStoryEndedEvent;
             
             AnimationManager.Instance.InitializeAnimationManager();
 
@@ -258,10 +259,27 @@ namespace GravityGames.MizJam1.Gameplay
 
         private void HandleStartPressed()
         {
-            if (_state != GameState.Playing)
+            if (_state == GameState.Menu)
             {
-                StartGame();
+                StartStory();
             }
+        }
+
+        private void StartStory()
+        {
+            DeactivateMenuObjects();
+            storyManager.StartStory();
+        }
+
+        private void HandleStoryEndedEvent()
+        {
+            StartGame();
+        }
+
+        private void DeactivateMenuObjects()
+        {
+            mainMenu.SetActive(false);
+            highScoreTextObject.enabled = false;
         }
 
         private void HandleEscapePressed()
@@ -286,7 +304,7 @@ namespace GravityGames.MizJam1.Gameplay
             _state = GameState.Menu;
             
             playerController.ResetPlayer();
-            ResetHUDObjects();
+            PrepareHUDForGameplay();
             pointsTextObject.enabled = false;
             
             mainMenu.SetActive(true);
@@ -313,19 +331,18 @@ namespace GravityGames.MizJam1.Gameplay
             playerController.ResetPlayer();
             _points = 0;
             _numberOfTrafficEvents = 0;
-            ResetHUDObjects();
+            PrepareHUDForGameplay();
 
-            StartCoroutine(AudioFadeOut.FadeOut(menuMusic, 0.3f));
+            StartCoroutine(AudioFadeOut.FadeOut(menuMusic, 1f));
 
             StartCoroutine(StartGameCoroutine());
         }
 
-        private void ResetHUDObjects()
+        private void PrepareHUDForGameplay()
         {
             UpdatePointsTextObject();
             newHighScoreObject.SetActive(false);
-            mainMenu.SetActive(false);
-            highScoreTextObject.enabled = false;
+            DeactivateMenuObjects();
             StartAgainTimerMask.gameObject.SetActive(false);
             
             StopAllCoroutines();
@@ -343,8 +360,6 @@ namespace GravityGames.MizJam1.Gameplay
             SetNormalTimeScale();
 
             playerController.CanMove = true;
-
-            Instantiate(prefabTutorial, HUDTransform);
             
             gameMusic.Stop();
             

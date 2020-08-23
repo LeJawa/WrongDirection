@@ -68,6 +68,15 @@ namespace GravityGames.MizJam1.Gameplay
         }
         #endregion
         
+        #region Action OnStoryEnded
+        public event Action OnStoryEnded;
+
+        public void TriggerStoryEndedEvent()
+        {
+            OnStoryEnded?.Invoke();
+        }
+        #endregion
+        
         
         
 
