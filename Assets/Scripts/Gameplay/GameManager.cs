@@ -68,8 +68,6 @@ namespace GravityGames.MizJam1.Gameplay
             GameEvents.Instance.OnPointBarrierCrossed += HandlePointBarrierCrossedEvent;
             GameEvents.Instance.OnPlayerCrashed += HandlePlayerCrashedEvent;
             GameEvents.Instance.OnStoryEnded += HandleStoryEndedEvent;
-            
-            AnimationManager.Instance.InitializeAnimationManager();
 
             if (PlayerPrefs.HasKey(HighScoreKey))
             {
@@ -109,8 +107,6 @@ namespace GravityGames.MizJam1.Gameplay
 
             _trafficManager.StopSpawningVehicles();
             playerController.CanMove = false;
-
-            AnimationManager.Instance.StartOpenPanelAnimation();
 
             HandleHighScore();
         }
@@ -315,8 +311,6 @@ namespace GravityGames.MizJam1.Gameplay
             
             _trafficManager.StopSpawningVehicles();
             playerController.CanMove = false;
-
-            AnimationManager.Instance.StartOpenPanelAnimation();
             
             menuCamera.Priority = 50;
             
@@ -354,7 +348,6 @@ namespace GravityGames.MizJam1.Gameplay
 
         private IEnumerator StartGameCoroutine()
         {
-            AnimationManager.Instance.StartClosePanelAnimation();
             menuCamera.Priority = 5;
             
             SetNormalTimeScale();

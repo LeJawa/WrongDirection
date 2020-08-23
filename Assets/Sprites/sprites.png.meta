@@ -113,6 +113,18 @@ TextureImporter:
   - first:
       213: -5113350760131414088
     second: blank
+  - first:
+      213: -2943835317918062483
+    second: road
+  - first:
+      213: -9009826273307446855
+    second: roadLimit
+  - first:
+      213: -6038895966588477023
+    second: roadLimit2
+  - first:
+      213: 2527441650270232441
+    second: grass
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -982,6 +994,69 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
+        y: 80
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b7b46a439ab909b0800000000000000
+      internalID: -5113350760131414088
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: road
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d68ae3e10656527d0800000000000000
+      internalID: -2943835317918062483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: roadLimit
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9b137839dbaa6f280800000000000000
+      internalID: -9009826273307446855
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: roadLimit2
+      rect:
+        serializedVersion: 2
+        x: 80
         y: 48
         width: 16
         height: 16
@@ -992,8 +1067,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8b7b46a439ab909b0800000000000000
-      internalID: -5113350760131414088
+      spriteID: 1a164f32d18813ca0800000000000000
+      internalID: -6038895966588477023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: grass
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97f52ea3ac6431320800000000000000
+      internalID: 2527441650270232441
       vertices: []
       indices: 
       edges: []
